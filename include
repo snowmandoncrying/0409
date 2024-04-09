@@ -8,27 +8,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <h1>/jsp/0409/top.jsp</h1>
- <%@ include file="top.jsp" %> <!-- 기존 방식, top페이지 코드 전체를 복붙하는 것과 같다, 여러개 해도 상관 없음 -->
+ <%@ include file="top.jsp" %>     <!-- 기존 방식, top페이지 코드 전체를 복붙하는 것과 같다. 여러개 해도 상관 없음 -->
 
 main과 top jsp를 따로따로 실행시켰을 땐 잘 작동하는데
-
 main에서 include하면 에러가 발생함 
-
 main은 UTF-8이고 top은 EUC-KR 이기 떄문이다
 > 기존 방식의 코드를 그대로 집어넣는 특징 때문
-
 > 이것을 액션 태그로 바꾸면 해결됨
 
-
+------------------
 # main.jsp
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <h1>/jsp/0409/main.jsp</h1>
 
-<jsp:include page="top.jsp">	<!-- 액션 태그 > 제대로 결과가 나옴, 실행 결과를 합침-->
+<jsp:include page="top.jsp">	            <!-- 액션 태그 > 제대로 결과가 나옴. 실행 결과를 합치는 것임-->
 
-<%-- <%@ include file="top.jsp" %> --%> <!-- 코드를 합침 -->
+<%-- <%@ include file="top.jsp" %> --%>     <!-- 인클루드: 코드를 합침 -->
 
 
 # top.jsp
