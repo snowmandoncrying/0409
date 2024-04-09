@@ -16,7 +16,6 @@ main은 UTF-8이고 top은 EUC-KR 이기 떄문이다
 > 기존 방식의 코드를 그대로 집어넣는 특징 때문
 > 이것을 액션 태그로 바꾸면 해결됨
 
-------------------
 # main.jsp
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -32,3 +31,31 @@ main은 UTF-8이고 top은 EUC-KR 이기 떄문이다
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="EUC-KR"%>
 <h1>/jsp/0409/top.jsp</h1>
+
+-----------------------
+
+	# main.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<h1>/jsp/0409/main.jsp</h1>
+
+<jsp:include page="top.jsp">	
+
+<jsp:include page="header.jsp" >
+	<jsp:param value="hello world" name="title">     <!-- 파라미터를 보내주는 jsp어쩌구, 속성의 순서는 바뀌어도 됨. 헤더 페이지로 파라미터를 보내고 합친다라는 뜻 -->
+	<jsp:param value="hello world" name="title">     <!-- 여러개 사용 가능 -->
+</jsp:include>
+
+
+	# header.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<h1>/jsp/0409/header.jsp</h1>
+
+<%
+	String title = request.getParameter("title");
+%>
+
+<h1><%=title %></h1>
