@@ -1,0 +1,222 @@
+# form.jsp    (http://localhost:8080/hyejin2/form.jsp)
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<script src="/hyejin2/resources/js/user.js"></script>
+<link rel="stylesheet" href="/hyejin2/resources/css/user.css" type="text/css"></link> 
+
+<h1>form.jsp</h1>
+
+<h1>회원가입</h1>
+<form action="pro3.jsp" method="post" >
+
+이름 <input type="text" name="name" placeholder="이름" /> <br /> 
+아이디 <input id="id" type="text" name="id" maxlength="8" placeholder="아이디" /> <br /> 
+비밀번호 <input type="text" name="password" minlength="14" placeholder="비밀번호" /> <br />
+비밀번호 확인 <input type="text" name="rePassword" minlength="14" placeholder="비밀번호 확인" /> <br />
+
+성별<br>   
+남자<input type="radio" name="gender" /> <br />
+여자<input type="radio" name="gender" /> <br />
+<br>
+나이<input type="text" name="age" /><br />
+생년월일<br>
+<input type="date" name="date" /><br />
+
+휴대전화<input type="number" name="phoneNumber" placeholder=" - 를 뺴고 입력해주세요." /> <br />
+통신사<br><select name="telecom">
+	<option value="KT">KT</option>
+	<option value="SK">SK</option>
+	<option value="LG">LGU+</option>
+</select>
+<br />
+SMS 수신여부<br>
+	<input name="phonReceive" type="radio" value="수신함" checked />수신함 <br />
+	<input name="phonReceive" type="radio" value="수신거부" />수신거부 <br />
+
+우편번호 <input type="number" name="post" maxlength="6" placeholder="우편번호" /> <br />
+주소 <input type="text" name="address" placeholder="주소" /> <br />
+상세주소 <input type="text" name="detailedAddress" placeholder="상세주소" /> <br />
+
+이메일 
+<input type="email" name="email" placeholder="E-Mail 주소" /><br />
+이메일 수신여부<br>
+	<input name="emailReceive" type="radio" value="수신함" checked />수신함 <br />
+	<input name="emailReceive" type="radio" value="수신거부" />수신거부 <br />
+
+	
+	<input type="button" value="확인" onclick="inputCheck()" />
+	<input type="submit" value="회원가입" />
+	
+</form>
+
+# pro3.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.oreilly.servlet.MultipartRequest" %> 
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %> 
+<%@ page import="java.io.File" %>
+
+<script src="/hyejin2/resources/js/user.js"></script>
+<link rel="stylesheet" href="/hyejin2/resources/css/user.css" type="text/css"></link> 
+    
+    
+<h1>pro3.jsp</h1>
+<%
+	request.setCharacterEncoding("UTF-8");
+	String path = request.getRealPath("resources/image");
+%>
+<jsp:useBean id="dto" class="web.bean.dto.UserDTO" />
+<jsp:setProperty property="*" name="dto" /> 
+
+<img src="/hyejin2/resources/image/"/>
+
+<h1><jsp:getProperty property="id" name="dto"/></h1>
+<h1><jsp:getProperty property="pw" name="dto"/></h1>
+<h1><jsp:getProperty property="gender" name="dto"/></h1>
+<h1><jsp:getProperty property="name" name="dto"/></h1>
+<h1><jsp:getProperty property="telecom" name="dto"/></h1>
+<h1><jsp:getProperty property="phoneNumber" name="dto"/></h1>
+<h1><jsp:getProperty property="phoneReceive" name="dto"/></h1>
+<h1><jsp:getProperty property="email" name="dto"/></h1>
+<h1><jsp:getProperty property="age" name="dto"/></h1>
+<h1><jsp:getProperty property="date" name="dto"/></h1>
+<h1><jsp:getProperty property="post" name="dto"/></h1>
+<h1><jsp:getProperty property="address" name="dto"/></h1>
+<h1><jsp:getProperty property="detailedAddress" name="dto"/></h1>
+
+# UserDTO.java
+
+package web.bean.dto;
+
+public class UserDTO {
+	
+	private String name;
+	private String id;
+	private String pw;
+	private String gender;
+	private int age; 
+	private String date;
+	private String number;
+	private String telecom;
+	private String phoneNumber;
+	private String phoneReceive;
+	private String post;
+	private String address;
+	private String detailedAddress;
+	private String email;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		if(name.length() >=2 && name.length() <=5) {
+			if(!name.matches(".*\\d.*")) {	// 정규 표현식 ".*\\d.*"는 문자열에 숫자가 하나 이상 포함되어 있는지를 검사합니다.
+				this.name = name;
+				System.out.println("Member--setName()===" + name);
+			}else {
+				System.out.println("이름에 숫자가 포함되어 있습니다.");
+			}
+		}else {
+			System.out.println("이름의 길이가 유효하지 않습니다.");
+		}
+	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		if(id.length() >= 4 && id.length() <=8 && Character.isLetter(id.charAt(0))) {
+		this.id = id;
+		System.out.println("setId()==="+id);
+		}else {
+			System.out.println("유효하지 않은 ID입니다.");
+		}
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	public String getTelecom() {
+		return telecom;
+	}
+	public void setTelecom(String telecom) {
+		this.telecom = telecom;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getPhoneReceive() {
+		return phoneReceive;
+	}
+	public void setPhoneReceive(String phoneReceive) {
+		this.phoneReceive = phoneReceive;
+	}
+	public String getPost() {
+		return post;
+	}
+	public void setPost(String post) {
+		this.post = post;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getDetailedAddress() {
+		return detailedAddress;
+	}
+	public void setDetailedAddress(String detailedAddress) {
+		this.detailedAddress = detailedAddress;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		if(pw.length() >=4 && pw.length() <=8 && !pw.equals(id)) {
+		this.pw = pw;
+		System.out.println("setPw()===" + pw);
+		}else {
+			System.out.println("비밀번호가 유효하지 않거나 아이디와 중복됩니다.");
+		}
+	}
+	
+	
+	public int getAge() {
+		return age-1; 	
+	}	
+	public void setAge(int age) { 
+		if(age > 0 && age <= 150) { 
+		this.age = age;
+		}
+	}
+
+}
+
